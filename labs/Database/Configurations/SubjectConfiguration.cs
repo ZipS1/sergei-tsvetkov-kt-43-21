@@ -7,7 +7,7 @@ namespace labs.Database.Configurations
 {
     public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
     {
-        private const string TableName = "subject";
+        private const string TableName = "cd_subject";
 
         public void Configure(EntityTypeBuilder<Subject> builder)
         {
@@ -22,7 +22,7 @@ namespace labs.Database.Configurations
 
             builder.Property(p => p.Name)
                 .IsRequired()
-                .HasColumnName("subject_name")
+                .HasColumnName("c_subject_name")
                 .HasColumnType(ColumnType.String).HasMaxLength(100)
                 .HasComment("Название предмета");
 
@@ -32,11 +32,15 @@ namespace labs.Database.Configurations
                 .HasColumnType(ColumnType.Int)
                 .HasComment("Идентификатор преподавателя");
 
-            builder
+            builder.ToTable(TableName)
                 .HasOne(p => p.Teacher)
                 .WithMany()
                 .HasForeignKey(p => p.TeacherId)
+                .HasConstraintName("fk_f_teacher_id")
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.ToTable(TableName)
+                .HasIndex(p => p.TeacherId, $"idx_{TableName}_fk_f_teacher_id");
 
             builder.Navigation(p => p.Teacher)
                 .AutoInclude();

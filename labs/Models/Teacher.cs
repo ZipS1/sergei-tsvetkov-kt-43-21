@@ -4,14 +4,14 @@
     {
         public int TeacherId { get; set; }
 
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
 
-        public string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty;
 
-        public string MiddleName { get; set; }
+        public string MiddleName { get; set; } = string.Empty;
 
         public int DepartmentId { get; set; }
 
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
     }
 }
