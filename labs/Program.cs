@@ -2,6 +2,7 @@ using labs.Database;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using static labs.ServiceExtensions.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ try
 
     builder.Services.AddDbContext<TeacherDbContext>(options => 
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+    builder.Services.AddServices();
 
     var app = builder.Build();
 
