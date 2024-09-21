@@ -12,6 +12,6 @@
 
         public int DepartmentId { get; set; }
 
-        public Department? Department { get; set; }
+        public required Department Department { get; set; }
     }
 }
