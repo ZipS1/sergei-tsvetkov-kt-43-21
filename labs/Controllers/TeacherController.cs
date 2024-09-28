@@ -18,9 +18,9 @@ namespace labs.Controllers
 		}
 
 		[HttpPost("GetTeachers")]
-		public async Task<IActionResult> GetTeachersAsync(TeacherDepartmentFilter filter, CancellationToken cancellationToken = default)
+		public async Task<IActionResult> GetTeachersByDepartmentAsync(TeacherDepartmentFilter filter, CancellationToken cancellationToken = default)
 		{
-			var teachers = await _teacherService.GetTeachersAsync(filter, cancellationToken);
+			var teachers = await _teacherService.GetTeachersByDepartmentAsync(filter, cancellationToken);
 			return Ok(teachers);
 		}
 	}
