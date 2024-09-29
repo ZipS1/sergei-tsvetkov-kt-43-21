@@ -26,6 +26,21 @@ namespace labs.Database.Configurations
                 .HasColumnName("c_department_name")
                 .HasColumnType(ColumnType.String).HasMaxLength(100)
                 .HasComment("Название кафедры");
+
+            builder.Property(p => p.HeadTeacherId)
+                .HasColumnName("f_head_teacher_id")
+                .HasColumnType(ColumnType.Int)
+                .HasComment("Идентификатор заведующего кафедрой");
+
+            builder.ToTable(TableName)
+                .HasOne(p => p.HeadTeacher)
+                .WithMany()
+                .HasForeignKey(p => p.HeadTeacherId)
+                .HasConstraintName("fk_f_head_teacher_id")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.ToTable(TableName)
+                .HasIndex(p => p.HeadTeacherId, "idx_fk_f_head_teacher_id");
         }
     }
 }

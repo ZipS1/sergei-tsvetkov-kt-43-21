@@ -11,8 +11,8 @@ using labs.Database;
 namespace labs.Migrations
 {
     [DbContext(typeof(TeacherDbContext))]
-    [Migration("20240911215434_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20240928184058_CreateUpdatedSchemaFromScratch")]
+    partial class CreateUpdatedSchemaFromScratch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,16 +34,24 @@ namespace labs.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DepartmentId"));
 
+                    b.Property<int>("HeadTeacherId")
+                        .HasColumnType("int4")
+                        .HasColumnName("f_head_teacher_id")
+                        .HasComment("Идентификатор заведующего кафедрой");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar")
-                        .HasColumnName("department_name")
+                        .HasColumnName("c_department_name")
                         .HasComment("Название кафедры");
 
-                    b.HasKey("DepartmentId");
+                    b.HasKey("DepartmentId")
+                        .HasName("pk_cd_department_student_id");
 
-                    b.ToTable("Departments");
+                    b.HasIndex(new[] { "HeadTeacherId" }, "idx_fk_f_head_teacher_id");
+
+                    b.ToTable("cd_department", (string)null);
                 });
 
             modelBuilder.Entity("labs.Models.Subject", b =>
@@ -60,7 +68,7 @@ namespace labs.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar")
-                        .HasColumnName("subject_name")
+                        .HasColumnName("c_subject_name")
                         .HasComment("Название предмета");
 
                     b.Property<int>("TeacherId")
@@ -70,9 +78,9 @@ namespace labs.Migrations
 
                     b.HasKey("SubjectId");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex(new[] { "TeacherId" }, "idx_cd_subject_fk_f_teacher_id");
 
-                    b.ToTable("subject", (string)null);
+                    b.ToTable("cd_subject", (string)null);
                 });
 
             modelBuilder.Entity("labs.Models.Teacher", b =>
@@ -85,6 +93,12 @@ namespace labs.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TeacherId"));
 
+                    b.Property<string>("AcademicDegree")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar")
+                        .HasColumnName("c_teacher_academic_degree")
+                        .HasComment("Ученая степень преподавателя");
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int4")
                         .HasColumnName("f_department_id")
@@ -94,28 +108,48 @@ namespace labs.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar")
-                        .HasColumnName("teacher_firstname")
+                        .HasColumnName("c_teacher_firstname")
                         .HasComment("Имя преподавателя");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar")
-                        .HasColumnName("teacher_lastname")
+                        .HasColumnName("c_teacher_lastname")
                         .HasComment("Фамилия преподавателя");
 
                     b.Property<string>("MiddleName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar")
-                        .HasColumnName("teacher_middlename")
+                        .HasColumnName("c_teacher_middlename")
                         .HasComment("Отчество преподавателя");
 
-                    b.HasKey("TeacherId");
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar")
+                        .HasColumnName("c_teacher_position")
+                        .HasComment("Должность преподавателя");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasKey("TeacherId")
+                        .HasName("pk_cd_teacher_teacher_id");
 
-                    b.ToTable("teacher", (string)null);
+                    b.HasIndex(new[] { "DepartmentId" }, "idx_cd_teacher_fk_f_department_id");
+
+                    b.ToTable("cd_teacher", (string)null);
+                });
+
+            modelBuilder.Entity("labs.Models.Department", b =>
+                {
+                    b.HasOne("labs.Models.Teacher", "HeadTeacher")
+                        .WithMany()
+                        .HasForeignKey("HeadTeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_f_head_teacher_id");
+
+                    b.Navigation("HeadTeacher");
                 });
 
             modelBuilder.Entity("labs.Models.Subject", b =>
@@ -124,7 +158,8 @@ namespace labs.Migrations
                         .WithMany()
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_f_teacher_id");
 
                     b.Navigation("Teacher");
                 });
@@ -135,7 +170,8 @@ namespace labs.Migrations
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_f_department_id");
 
                     b.Navigation("Department");
                 });

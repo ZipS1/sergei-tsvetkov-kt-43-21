@@ -38,6 +38,17 @@ namespace labs.Database.Configurations
                 .HasColumnType(ColumnType.String).HasMaxLength(100)
                 .HasComment("Отчество преподавателя");
 
+            builder.Property(p => p.Position)
+                .IsRequired()
+                .HasColumnName("c_teacher_position")
+                .HasColumnType(ColumnType.String).HasMaxLength(100)
+                .HasComment("Должность преподавателя");
+
+            builder.Property(p => p.AcademicDegree)
+                .HasColumnName("c_teacher_academic_degree")
+                .HasColumnType(ColumnType.String).HasMaxLength(100)
+                .HasComment("Ученая степень преподавателя");
+
             builder.Property(p => p.DepartmentId)
                 .IsRequired()
                 .HasColumnName("f_department_id")
@@ -53,9 +64,6 @@ namespace labs.Database.Configurations
 
             builder.ToTable(TableName)
                 .HasIndex(p => p.DepartmentId, $"idx_{TableName}_fk_f_department_id");
-
-            builder.Navigation(p => p.Department)
-                .AutoInclude();
         }
     }
 }
