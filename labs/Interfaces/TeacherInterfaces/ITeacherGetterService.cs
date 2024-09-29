@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace labs.Interfaces.TeacherInterfaces
 {
-	public interface ITeacherService
+	public interface ITeacherGetterService
 	{
 		public Task<Teacher[]> GetTeachersByDegreeAsync(TeacherAcademicDegreeFilter filter, CancellationToken cancellationToken);
 		public Task<Teacher[]> GetTeachersByDepartmentAsync(TeacherDepartmentFilter filter, CancellationToken cancellationToken);
 		public Task<Teacher[]> GetTeachersByPositionAsync(TeacherPositionFilter filter, CancellationToken cancellationToken);
 	}
 
-	public class TeacherService : ITeacherService
+	public class TeacherGetterService : ITeacherGetterService
 	{
 		private readonly TeacherDbContext _dbContext;
 
-		public TeacherService(TeacherDbContext dbContext)
+		public TeacherGetterService(TeacherDbContext dbContext)
 		{
 			_dbContext = dbContext;
 		}

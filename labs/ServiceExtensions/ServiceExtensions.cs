@@ -6,7 +6,8 @@ namespace labs.ServiceExtensions
 	{
 		public static IServiceCollection AddServices(this IServiceCollection services)
 		{
-			services.AddScoped<ITeacherService, TeacherService>();
+			services.AddScoped<ITeacherGetterService, TeacherGetterService>();
+			services.AddScoped<ITeacherModifierService, TeacherModifierService>();
 			return services;
 		}
 	}
