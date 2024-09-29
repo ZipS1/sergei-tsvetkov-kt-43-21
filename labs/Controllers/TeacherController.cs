@@ -17,10 +17,24 @@ namespace labs.Controllers
 			_teacherService = teacherService;
 		}
 
-		[HttpPost("GetTeachers")]
+		[HttpPost("ByDegree")]
+		public async Task<IActionResult> GetTeachersByDegreeAsync(TeacherAcademicDegreeFilter filter, CancellationToken cancellationToken = default)
+		{
+			var teachers = await _teacherService.GetTeachersByDegreeAsync(filter, cancellationToken);
+			return Ok(teachers);
+		}
+
+		[HttpPost("ByDepartment")]
 		public async Task<IActionResult> GetTeachersByDepartmentAsync(TeacherDepartmentFilter filter, CancellationToken cancellationToken = default)
 		{
 			var teachers = await _teacherService.GetTeachersByDepartmentAsync(filter, cancellationToken);
+			return Ok(teachers);
+		}
+
+		[HttpPost("ByPosition")]
+		public async Task<IActionResult> GetTeachersByPositionAsync(TeacherPositionFilter filter, CancellationToken cancellationToken = default)
+		{
+			var teachers = await _teacherService.GetTeachersByPositionAsync(filter, cancellationToken);
 			return Ok(teachers);
 		}
 	}
