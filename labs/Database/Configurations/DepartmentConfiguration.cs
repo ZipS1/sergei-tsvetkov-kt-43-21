@@ -37,7 +37,7 @@ namespace labs.Database.Configurations
                 .WithMany()
                 .HasForeignKey(p => p.HeadTeacherId)
                 .HasConstraintName("fk_f_head_teacher_id")
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.ToTable(TableName)
                 .HasIndex(p => p.HeadTeacherId, "idx_fk_f_head_teacher_id");
