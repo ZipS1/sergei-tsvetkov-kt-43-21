@@ -10,8 +10,14 @@
 
         public string MiddleName { get; set; } = string.Empty;
 
+        public required string Position { get; set; }
+
+        public string? AcademicDegree { get; set; }
+
         public int DepartmentId { get; set; }
 
-        public required Department Department { get; set; }
+        public Department? Department { get; set; }
+
+        public bool HasAcademicDegree() => AcademicDegree != null;
     }
 }
