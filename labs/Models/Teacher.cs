@@ -16,6 +16,8 @@
 
         public int DepartmentId { get; set; }
 
-        public required Department Department { get; set; }
+        public Department? Department { get; set; }
+
+        public bool HasAcademicDegree() => AcademicDegree != null;
     }
 }
