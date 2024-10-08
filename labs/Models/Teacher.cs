@@ -4,13 +4,13 @@
     {
         public int TeacherId { get; set; }
 
-        public string FirstName { get; set; } = string.Empty;
+        public required string FirstName { get; set; } = string.Empty;
 
-        public string LastName { get; set; } = string.Empty;
+        public required string LastName { get; set; } = string.Empty;
 
-        public string MiddleName { get; set; } = string.Empty;
+        public required string MiddleName { get; set; } = string.Empty;
 
-        public required string Position { get; set; }
+        public required string Position { get; set; } = string.Empty;
 
         public string? AcademicDegree { get; set; }
 
