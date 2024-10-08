@@ -1,6 +1,5 @@
 ﻿using labs.Database;
 using labs.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace labs.Interfaces.TeacherInterfaces
 {
