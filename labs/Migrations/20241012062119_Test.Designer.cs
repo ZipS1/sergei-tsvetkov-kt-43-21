@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using labs.Database;
@@ -11,9 +12,11 @@ using labs.Database;
 namespace labs.Migrations
 {
     [DbContext(typeof(TeacherDbContext))]
-    partial class TeacherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241012062119_Test")]
+    partial class Test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,6 +49,9 @@ namespace labs.Migrations
 
                     b.HasKey("DepartmentId")
                         .HasName("pk_cd_department_student_id");
+
+                    b.HasIndex("HeadTeacherId")
+                        .IsUnique();
 
                     b.HasIndex(new[] { "HeadTeacherId" }, "idx_fk_f_head_teacher_id");
 
@@ -141,8 +147,8 @@ namespace labs.Migrations
             modelBuilder.Entity("labs.Models.Department", b =>
                 {
                     b.HasOne("labs.Models.Teacher", "HeadTeacher")
-                        .WithMany()
-                        .HasForeignKey("HeadTeacherId")
+                        .WithOne()
+                        .HasForeignKey("labs.Models.Department", "HeadTeacherId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_f_head_teacher_id");
 
