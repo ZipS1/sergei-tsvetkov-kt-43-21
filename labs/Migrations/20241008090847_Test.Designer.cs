@@ -12,8 +12,8 @@ using labs.Database;
 namespace labs.Migrations
 {
     [DbContext(typeof(TeacherDbContext))]
-    [Migration("20240929075803_HeadTeacher-SetNull")]
-    partial class HeadTeacherSetNull
+    [Migration("20241008090847_Test")]
+    partial class Test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,9 @@ namespace labs.Migrations
 
                     b.HasKey("DepartmentId")
                         .HasName("pk_cd_department_student_id");
+
+                    b.HasIndex("HeadTeacherId")
+                        .IsUnique();
 
                     b.HasIndex(new[] { "HeadTeacherId" }, "idx_fk_f_head_teacher_id");
 
@@ -144,8 +147,8 @@ namespace labs.Migrations
             modelBuilder.Entity("labs.Models.Department", b =>
                 {
                     b.HasOne("labs.Models.Teacher", "HeadTeacher")
-                        .WithMany()
-                        .HasForeignKey("HeadTeacherId")
+                        .WithOne()
+                        .HasForeignKey("labs.Models.Department", "HeadTeacherId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_f_head_teacher_id");
 

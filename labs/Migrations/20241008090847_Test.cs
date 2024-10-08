@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace labs.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateUpdatedSchemaFromScratch : Migration
+    public partial class Test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace labs.Migrations
                     department_id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор записи кафедры")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     c_department_name = table.Column<string>(type: "varchar", maxLength: 100, nullable: false, comment: "Название кафедры"),
-                    f_head_teacher_id = table.Column<int>(type: "int4", nullable: false, comment: "Идентификатор заведующего кафедрой")
+                    f_head_teacher_id = table.Column<int>(type: "int4", nullable: true, comment: "Идентификатор заведующего кафедрой")
                 },
                 constraints: table =>
                 {
@@ -75,6 +75,12 @@ namespace labs.Migrations
                 column: "f_head_teacher_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_cd_department_f_head_teacher_id",
+                table: "cd_department",
+                column: "f_head_teacher_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "idx_cd_subject_fk_f_teacher_id",
                 table: "cd_subject",
                 column: "f_teacher_id");
@@ -90,7 +96,7 @@ namespace labs.Migrations
                 column: "f_head_teacher_id",
                 principalTable: "cd_teacher",
                 principalColumn: "teacher_id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.SetNull);
         }
 
         /// <inheritdoc />

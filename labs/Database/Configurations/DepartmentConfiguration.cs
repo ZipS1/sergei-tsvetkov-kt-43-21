@@ -34,8 +34,8 @@ namespace labs.Database.Configurations
 
             builder.ToTable(TableName)
                 .HasOne(p => p.HeadTeacher)
-                .WithMany()
-                .HasForeignKey(p => p.HeadTeacherId)
+                .WithOne()
+                .HasForeignKey<Department>(p => p.HeadTeacherId)
                 .HasConstraintName("fk_f_head_teacher_id")
                 .OnDelete(DeleteBehavior.SetNull);
 
