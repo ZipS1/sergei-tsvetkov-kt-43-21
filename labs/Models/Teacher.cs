@@ -1,4 +1,6 @@
-﻿namespace labs.Models
+﻿using System.Text.Json.Serialization;
+
+namespace labs.Models
 {
     public class Teacher
     {
@@ -16,6 +18,7 @@
 
         public int DepartmentId { get; set; }
 
+        [JsonIgnore]
         public Department? Department { get; set; }
 
         public bool HasAcademicDegree() => AcademicDegree != null;
