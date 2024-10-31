@@ -4,6 +4,7 @@ namespace labs.Models
 {
     public class Teacher
     {
+        [JsonIgnore]
         public int TeacherId { get; set; }
 
         public required string FirstName { get; set; } = string.Empty;

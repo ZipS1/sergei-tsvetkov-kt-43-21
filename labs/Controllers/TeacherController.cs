@@ -41,7 +41,14 @@ namespace labs.Controllers
 			return Ok(teachers);
 		}
 
-		[HttpPost("Create")]
+        [HttpPost("GetByName")]
+        public async Task<IActionResult> GetTeachersByNameAsync(TeacherNameFilter filter, CancellationToken cancellationToken = default)
+        {
+            var teachers = await _teacherGetterService.GetTeachersByNameAsync(filter, cancellationToken);
+            return Ok(teachers);
+        }
+
+        [HttpPost("Create")]
 		public async Task<IActionResult> CreateTeacherAsync(Teacher teacher, CancellationToken cancellationToken = default)
 		{
 			await _teacherModifierService.CreateTeacherAsync(teacher, cancellationToken);

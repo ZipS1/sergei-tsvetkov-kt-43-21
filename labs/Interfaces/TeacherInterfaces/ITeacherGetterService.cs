@@ -10,7 +10,9 @@ namespace labs.Interfaces.TeacherInterfaces
 		public Task<Teacher[]> GetTeachersByDegreeAsync(TeacherAcademicDegreeFilter filter, CancellationToken cancellationToken);
 		public Task<Teacher[]> GetTeachersByDepartmentAsync(TeacherDepartmentFilter filter, CancellationToken cancellationToken);
 		public Task<Teacher[]> GetTeachersByPositionAsync(TeacherPositionFilter filter, CancellationToken cancellationToken);
-	}
+		public Task<Teacher[]> GetTeachersByNameAsync(TeacherNameFilter filter, CancellationToken cancellationToken);
+
+    }
 
 	public class TeacherGetterService : ITeacherGetterService
 	{
@@ -44,5 +46,15 @@ namespace labs.Interfaces.TeacherInterfaces
 				.ToArrayAsync();
 			return teachers;
 		}
-	}
+
+        public Task<Teacher[]> GetTeachersByNameAsync(TeacherNameFilter filter, CancellationToken cancellationToken)
+        {
+            var teachers = _dbContext.Set<Teacher>()
+                .Where(t => t.FirstName == filter.FirstName || string.IsNullOrEmpty(filter.FirstName))
+                .Where(t => t.MiddleName == filter.MiddleName || string.IsNullOrEmpty(filter.MiddleName))
+                .Where(t => t.LastName == filter.LastName || string.IsNullOrEmpty(filter.LastName))
+                .ToArrayAsync();
+            return teachers;
+        }
+    }
 }
